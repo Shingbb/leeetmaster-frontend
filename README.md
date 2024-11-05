@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+    <a href="https://github.com/Shingbb/leetmaster-backend" target="_blank">
+      <img src="public/assets/leetmaster_logo.png" width="280" alt="LeetMaster Logo"/>
+    </a>
+</p>
 
-## Getting Started
+<h1 align="center">LeetMaster 面试大师</h1>
+<p align="center">
+  <strong>基于 Spring Boot + Redis + MySQL + Elasticsearch + Next.js</strong><br>
+  一站式面试刷题平台，持续更新中...
+</p>
 
-First, run the development server:
+<p align="center">
+    <a href="https://github.com/Shingbb/leetmaster-backend"><img src="https://img.shields.io/badge/后端-项目地址-yellow.svg?style=plasticr"></a>
+    <a href="https://github.com/Shingbb/leetmaster-frontend"><img src="https://img.shields.io/badge/前端-项目地址-blueviolet.svg?style=plasticr"></a>
+</p>
+
+---
+
+## 项目简介
+
+LeetMaster 面试大师是一个面试刷题平台，具有以下核心功能：
+- **题库管理**：管理员可创建题库并批量关联题目
+- **分词检索**：用户可以高效搜索题目
+- **刷题功能**：用户可在线刷题并查看刷题记录日历
+
+> 作者：[程序员Shing](https://github.com/Shingbb)
+
+---
+
+## 目录
+- [快速启动](#快速启动)
+- [技术栈](#技术栈)
+
+## 快速启动
+
+在本地启动开发服务器：
 
 ```bash
 npm run dev
-# or
+# 或使用 yarn
 yarn dev
-# or
+# 或使用 pnpm
 pnpm dev
-# or
+# 或使用 bun
 bun dev
 ```
+## 技术栈
+- **后端**：Spring Boot + Redis + MySQL + Elasticsearch + MyBatis-Plus + Swagger + sa-token
+- **前端**：Next.js + Ant Design + React + TypeScript 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

@@ -35,9 +35,11 @@ const InitLayout: React.FC<
     const res = await getLoginUserUsingGet();
     if (res.data) {
       // 更新全局用户状态
+      const loginUser = res.data;
+      dispatch(setLoginUser(loginUser));
     } else {
-      // 跳转到登录页面
-      setTimeout(() => {
+      /*setTimeout(() => {
+        // 获取失败，使用默认测试用户登录
         const testUser = {
           id: 1,
           userName: "test",
@@ -46,10 +48,10 @@ const InitLayout: React.FC<
             "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
         };
         dispatch(setLoginUser(testUser));
-      }, 3000);
+      }, 3000);*/
       return;
     }
-    // 获取当前页面路径
+/*    // 获取当前页面路径
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const pathname = usePathname();
     // 登录和注册页不用获取登录信息
@@ -60,7 +62,7 @@ const InitLayout: React.FC<
       console.log("用户已登录，正在访问页面:", pathname);
       // 还可以在此处进行页面数据的初始加载
       // 示例：fetchPageData(pathname);
-    }
+    }*/
   }, []);
   // 只执行一次
   useEffect(() => {

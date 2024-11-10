@@ -1,21 +1,18 @@
 "use client";
-import {
-  GithubFilled,
-  LogoutOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import { ProLayout } from "@ant-design/pro-components";
-import { Dropdown, Input } from "antd";
-import React from "react";
+import {GithubFilled, LogoutOutlined, SearchOutlined,} from "@ant-design/icons";
+import {ProLayout} from "@ant-design/pro-components";
+import {Dropdown, Input, message} from "antd";
+import React, {useCallback} from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import {usePathname} from "next/navigation";
 import Link from "next/link";
 import GlobalFooter from "@/components/GlobalFooter";
-import { menus } from "../../../config/menu";
+import {menus} from "../../../config/menu";
 import "./index.css";
-import { listQuestionBankVoByPageUsingPost } from "@/api/questionBank";
-import { useSelector } from "react-redux";
-import { RootState } from "@/stores";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/stores";
+import {userLogoutUsingPost} from "@/api/user";
+import {DEFAULT_USER,setLoginUser} from "@/stores/loginUser";
 
 /**
  * 搜索条
@@ -60,8 +57,26 @@ interface Props {
  */
 export default function BasicLayout({ children }: Props) {
   const pathname = usePathname();
-
+  const dispatch = useDispatch();
   const loginUser = useSelector((state: RootState) => state.loginUser);
+
+  /**
+   * 退出登录函数
+   */
+  const handleLogout = useCallback(async () => {
+    try {
+      const res = await userLogoutUsingPost(); // 调用退出登录接口
+      if (res.data) {
+        // 清除 Redux 中的用户状态
+        dispatch(setLoginUser(DEFAULT_USER));
+        message.success("已成功退出登录");
+      } else {
+        message.error("退出登录失败，请稍后再试");
+      }
+    } catch (error) {
+      message.error("退出登录失败，请稍后再试");
+    }
+  }, [dispatch]);
 
   return (
     <div
@@ -86,9 +101,9 @@ export default function BasicLayout({ children }: Props) {
           pathname,
         }}
         avatarProps={{
-          src: loginUser.userAvatar || "/assets/logo.png",
+          src: loginUser.userAvatar,
           size: "small",
-          title: loginUser.userName || "用户",
+          title: loginUser.userName ,
           render: (props, dom) => {
             return (
               <Dropdown
@@ -98,6 +113,7 @@ export default function BasicLayout({ children }: Props) {
                       key: "logout",
                       icon: <LogoutOutlined />,
                       label: "退出登录",
+                      onClick: handleLogout, // 点击触发退出登录
                     },
                   ],
                 }}
@@ -144,7 +160,7 @@ export default function BasicLayout({ children }: Props) {
           </Link>
         )}
       >
-        {JSON.stringify(loginUser)}
+        {/*{JSON.stringify(loginUser)}*/}
         {children}
       </ProLayout>
     </div>

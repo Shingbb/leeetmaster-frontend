@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { ProLayout } from "@ant-design/pro-components";
 import { Dropdown, Input, message } from "antd";
-import React, { useCallback } from "react";
+import React, {useCallback, useState} from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -18,6 +18,8 @@ import { RootState } from "@/stores";
 import { userLogoutUsingPost } from "@/api/user";
 import { DEFAULT_USER, setLoginUser } from "@/stores/loginUser";
 import getAccessibleMenus from "@/access/menuAccess";
+import MdEditor from "@/components/MdEditor";
+import MdViewer from "@/components/MdViewer";
 
 /**
  * 搜索条
@@ -64,6 +66,8 @@ export default function BasicLayout({ children }: Props) {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const loginUser = useSelector((state: RootState) => state.loginUser);
+
+  const [text, setText] = useState<string>("");
 
   /**
    * 退出登录函数
@@ -165,6 +169,8 @@ export default function BasicLayout({ children }: Props) {
           </Link>
         )}
       >
+        <MdEditor value={text} onChange={setText} />
+        <MdViewer value={text} />
         {/*{JSON.stringify(loginUser)}*/}
         {children}
       </ProLayout>

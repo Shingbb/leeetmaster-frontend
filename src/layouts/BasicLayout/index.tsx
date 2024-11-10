@@ -1,18 +1,23 @@
 "use client";
-import {GithubFilled, LogoutOutlined, SearchOutlined,} from "@ant-design/icons";
-import {ProLayout} from "@ant-design/pro-components";
-import {Dropdown, Input, message} from "antd";
-import React, {useCallback} from "react";
+import {
+  GithubFilled,
+  LogoutOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { ProLayout } from "@ant-design/pro-components";
+import { Dropdown, Input, message } from "antd";
+import React, { useCallback } from "react";
 import Image from "next/image";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import GlobalFooter from "@/components/GlobalFooter";
-import {menus} from "../../../config/menu";
+import { menus } from "../../../config/menus";
 import "./index.css";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "@/stores";
-import {userLogoutUsingPost} from "@/api/user";
-import {DEFAULT_USER,setLoginUser} from "@/stores/loginUser";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/stores";
+import { userLogoutUsingPost } from "@/api/user";
+import { DEFAULT_USER, setLoginUser } from "@/stores/loginUser";
+import getAccessibleMenus from "@/access/menuAccess";
 
 /**
  * 搜索条
@@ -103,7 +108,7 @@ export default function BasicLayout({ children }: Props) {
         avatarProps={{
           src: loginUser.userAvatar,
           size: "small",
-          title: loginUser.userName ,
+          title: loginUser.userName,
           render: (props, dom) => {
             return (
               <Dropdown
@@ -151,7 +156,7 @@ export default function BasicLayout({ children }: Props) {
         onMenuHeaderClick={(e) => console.log(e)}
         // 定义有哪些菜单
         menuDataRender={() => {
-          return menus;
+          return getAccessibleMenus(loginUser, menus);
         }}
         // 定义了菜单项如何渲染
         menuItemRender={(item, dom) => (

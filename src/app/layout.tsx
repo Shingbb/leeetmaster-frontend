@@ -13,7 +13,7 @@ import { Provider, useDispatch } from "react-redux";
 import store, { AppDispatch } from "@/stores";
 import { getLoginUserUsingGet } from "@/api/user";
 import { setLoginUser } from "@/stores/loginUser";
-import { usePathname } from "next/navigation";
+import AccessLayout from "@/access/AccessLayout";
 
 /**
  * 执行初始化逻辑的布局（多封装一层）
@@ -39,30 +39,30 @@ const InitLayout: React.FC<
       dispatch(setLoginUser(loginUser));
     } else {
       /*setTimeout(() => {
-        // 获取失败，使用默认测试用户登录
-        const testUser = {
-          id: 1,
-          userName: "test",
-          nickName: "测试用户",
-          userAvatar:
-            "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
-        };
-        dispatch(setLoginUser(testUser));
-      }, 3000);*/
+                    // 获取失败，使用默认测试用户登录
+                    const testUser = {
+                      id: 1,
+                      userName: "test",
+                      nickName: "测试用户",
+                      userAvatar:
+                        "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
+                    };
+                    dispatch(setLoginUser(testUser));
+                  }, 3000);*/
       return;
     }
-/*    // 获取当前页面路径
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const pathname = usePathname();
-    // 登录和注册页不用获取登录信息
-    if (pathname !== "/user/login" && pathname !== "/user/register") {
-    }
-    {
-      // 这里可以添加逻辑，例如跳转到首页或者加载页面数据
-      console.log("用户已登录，正在访问页面:", pathname);
-      // 还可以在此处进行页面数据的初始加载
-      // 示例：fetchPageData(pathname);
-    }*/
+    /*    // 获取当前页面路径
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const pathname = usePathname();
+                // 登录和注册页不用获取登录信息
+                if (pathname !== "/user/login" && pathname !== "/user/register") {
+                }
+                {
+                  // 这里可以添加逻辑，例如跳转到首页或者加载页面数据
+                  console.log("用户已登录，正在访问页面:", pathname);
+                  // 还可以在此处进行页面数据的初始加载
+                  // 示例：fetchPageData(pathname);
+                }*/
   }, []);
   // 只执行一次
   useEffect(() => {
@@ -87,7 +87,9 @@ export default function RootLayout({
         <AntdRegistry>
           <Provider store={store}>
             <InitLayout>
-              <BasicLayout>{children}</BasicLayout>
+              <BasicLayout>
+                <AccessLayout>{children}</AccessLayout>
+              </BasicLayout>
             </InitLayout>
           </Provider>
         </AntdRegistry>

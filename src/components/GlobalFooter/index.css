@@ -1,8 +1,12 @@
+/* index.css */
 .global-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: #efefef;
-    padding: 16px;
-    text-align: center;
+    position: fixed; /* 固定定位，确保脚注保持在视窗底部 */
+    bottom: 0; /* 脚注紧贴视窗底部 */
+    width: 100%; /* 脚注宽度与视窗宽度相同 */
+    text-align: center; /* 居中对齐文本 */
+    padding: 10px 0; /* 上下内边距为10px，左右内边距为0 */
+    color:  #0a0a0a; /* 设置文本颜色为深灰色 */
+    background-color: #f0f2f5; /* 设置背景颜色为浅灰色 */
+    border-top: 1px solid #d9d9d9; /* 在脚注顶部添加一条细线边界 */
+    z-index: 1000; /* 保证在其他内容之上 */
 }

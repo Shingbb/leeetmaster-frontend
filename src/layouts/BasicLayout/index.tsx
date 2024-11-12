@@ -1,12 +1,13 @@
 "use client";
 import {
   GithubFilled,
+  LoginOutlined,
   LogoutOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import { ProLayout } from "@ant-design/pro-components";
 import { Dropdown, Input, message } from "antd";
-import React, {useCallback, useState} from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -16,10 +17,11 @@ import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/stores";
 import { userLogoutUsingPost } from "@/api/user";
-import { DEFAULT_USER, setLoginUser } from "@/stores/loginUser";
+import { setLoginUser } from "@/stores/loginUser";
 import getAccessibleMenus from "@/access/menuAccess";
-import MdEditor from "@/components/MdEditor";
-import MdViewer from "@/components/MdViewer";
+import { router } from "next/client";
+import { DEFAULT_USER } from "@/constants/user";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 /**
  * 搜索条
@@ -70,7 +72,7 @@ export default function BasicLayout({ children }: Props) {
   const [text, setText] = useState<string>("");
 
   /**
-   * 退出登录函数
+   * 退出登录函数 Shing
    */
   const handleLogout = useCallback(async () => {
     try {
@@ -86,6 +88,21 @@ export default function BasicLayout({ children }: Props) {
       message.error("退出登录失败，请稍后再试");
     }
   }, [dispatch]);
+
+  /**
+   * 用户注销
+   */
+  const userLogout = async () => {
+    try {
+      await userLogoutUsingPost();
+      message.success("已退出登录");
+      dispatch(setLoginUser(DEFAULT_USER));
+      router.push("/user/login");
+    } catch (e) {
+      message.error("操作失败，" + e.message);
+    }
+    return;
+  };
 
   return (
     <div
@@ -109,6 +126,9 @@ export default function BasicLayout({ children }: Props) {
         location={{
           pathname,
         }}
+        /**
+         * 登录用户头像组件
+         */
         avatarProps={{
           src: loginUser.userAvatar,
           size: "small",
@@ -117,14 +137,24 @@ export default function BasicLayout({ children }: Props) {
             return (
               <Dropdown
                 menu={{
-                  items: [
-                    {
-                      key: "logout",
-                      icon: <LogoutOutlined />,
-                      label: "退出登录",
-                      onClick: handleLogout, // 点击触发退出登录
-                    },
-                  ],
+                  items:
+                    loginUser.userRole !== ACCESS_ENUM.NOT_LOGIN
+                      ? [
+                          {
+                            key: "logout",
+                            icon: <LogoutOutlined />,
+                            label: "退出登录",
+                            onClick: handleLogout, // 已登录状态下，点击触发退出登录
+                          },
+                        ]
+                      : [
+                          {
+                            key: "login",
+                            icon: <LoginOutlined />,
+                            label: "点击登录",
+                            onClick: () => router.replace("/user/login"), // 未登录状态下，点击跳转到登录页面
+                          },
+                        ],
                 }}
               >
                 {dom}
@@ -169,9 +199,6 @@ export default function BasicLayout({ children }: Props) {
           </Link>
         )}
       >
-        <MdEditor value={text} onChange={setText} />
-        <MdViewer value={text} />
-        {/*{JSON.stringify(loginUser)}*/}
         {children}
       </ProLayout>
     </div>

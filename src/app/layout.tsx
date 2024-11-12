@@ -35,8 +35,7 @@ const InitLayout: React.FC<
     const res = await getLoginUserUsingGet();
     if (res.data) {
       // 更新全局用户状态
-      const loginUser = res.data;
-      dispatch(setLoginUser(loginUser));
+      dispatch(setLoginUser(res.data));
     } else {
       /*setTimeout(() => {
                     // 获取失败，使用默认测试用户登录
